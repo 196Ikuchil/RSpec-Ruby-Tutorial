@@ -22,6 +22,8 @@ group :development do
   gem 'listen',                '3.1.5'
   gem 'spring',                '2.0.2'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'ruby-debug-ide',        '0.6.1'
+  gem 'debase',                '0.2.2'
 end
 
 group :test do
