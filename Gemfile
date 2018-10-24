@@ -15,6 +15,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6.0' 
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'capybara'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
 end
 
 group :development do
