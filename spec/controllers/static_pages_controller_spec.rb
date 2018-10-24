@@ -3,7 +3,7 @@ require 'rails_helper'
 describe StaticPagesController, type: :controller do
   render_views
   let(:base_title) { 'Ruby on Rails Tutorial Sample App' }
-  
+ 
   describe 'GET #home' do
     it 'has a 200 status code' do
       get 'home'
