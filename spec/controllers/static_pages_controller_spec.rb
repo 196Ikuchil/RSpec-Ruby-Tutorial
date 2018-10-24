@@ -25,4 +25,11 @@ describe StaticPagesController, type: :controller do
       assert_select "title", "About | #{base_title}"
     end
   end
+  describe 'GET #contact' do
+    it 'has a 200 status code' do
+      get 'contact'
+      expect(response.status).to eq 200
+      assert_select "title", "Contact | #{base_title}"
+    end
+  end
 end
