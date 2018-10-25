@@ -13,8 +13,11 @@ group :development, :test do
   gem 'sqlite3', '1.3.13'
   gem 'byebug',  '9.0.6', platform: :mri
   gem 'rspec-rails', '~> 3.6.0' 
-  gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'factory_bot_rails'
   gem 'capybara'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
 end
 
 group :development do
@@ -22,6 +25,8 @@ group :development do
   gem 'listen',                '3.1.5'
   gem 'spring',                '2.0.2'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'ruby-debug-ide',        '0.6.1'
+  gem 'debase',                '0.2.2'
 end
 
 group :test do
