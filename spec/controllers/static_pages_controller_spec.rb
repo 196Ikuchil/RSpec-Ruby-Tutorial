@@ -9,6 +9,9 @@ describe StaticPagesController, type: :controller do
     it 'has a 200 status code' do
       get 'home'
       expect(response).to have_http_status(:ok)
+    end
+    it 'check home render' do
+      get 'home'
       expect(response).to render_template('static_pages/home')
     end
   end
