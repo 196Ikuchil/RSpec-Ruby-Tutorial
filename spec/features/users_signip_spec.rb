@@ -44,7 +44,26 @@ describe 'Users Signup page', type: :request do
           password: user.password_confirmation 
         }
       }
+      created = User.find_by(email: user.email)
+      get "/users/#{created.id}"
       expect(flash[:success]).not_to be_empty
+    end
+
+    it 'flushの値が消える' do
+      get '/signup'
+      user = build(:user)
+      post '/users', params: {
+        user: {
+          name:   user.name,
+          email:  user.email,
+          password: user.password,
+          password: user.password_confirmation 
+        }
+      }
+      created = User.find_by(email: user.email)
+      get "/users/#{created.id}"
+      get "/users/#{created.id}"
+      expect(flash[:success]).to be nil
     end
   end
 
