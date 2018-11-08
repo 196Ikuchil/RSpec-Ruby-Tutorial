@@ -45,6 +45,11 @@ RSpec.describe UsersController, type: :controller do
       get :show, params: {id: created.id}
       expect(flash[:success]).to be nil
     end
+
+    it 'ログインセッションが保存される' do
+      post_create
+      expect(is_logged_in?).to eq true
+    end
   end
 
   describe 'invalid signup information (POST#create)' do
