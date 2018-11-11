@@ -6,36 +6,52 @@ describe StaticPagesController, type: :controller do
   let(:base_title) { 'Ruby on Rails Tutorial Sample App' }
  
   describe 'GET #home' do
-    it 'has a 200 status code' do
-      get 'home'
-      expect(response).to have_http_status(:ok)
+    context "when access the page" do
+      it 'has a 200 status code' do
+        get 'home'
+        expect(response).to have_http_status(:ok)
+      end
+      it 'check home render' do
+        get 'home'
+        expect(response).to render_template('static_pages/home')
+      end
     end
-    it 'check home render' do
-      get 'home'
-      expect(response).to render_template('static_pages/home')
+
+    context "when access #wrong page" do
+      it "rejects wrong URI." do
+        expect{get('/static_pages/hoge')}.to raise_error
+      end
     end
   end
+
   describe 'GET #help' do
-    it 'has a 200 status code' do
-      get 'help'
-      expect(response.status).to eq 200
+    context "when access the page" do
+      it 'has a 200 status code' do
+        get 'help'
+        expect(response.status).to eq 200
+      end
     end
   end
+
   describe 'GET #about' do
-    it 'has a 200 status code' do
-      get 'about'
-      expect(response.status).to eq 200
+    context "when access the page" do
+      it 'has a 200 status the code' do
+        get 'about'
+        expect(response.status).to eq 200
+      end
     end
   end
+
   describe 'GET #contact' do
-    it 'has a 200 status code' do
-      get 'contact'
-      expect(response.status).to eq 200
+    context "when access the page" do
+      it 'has a 200 status code' do
+        get 'contact'
+        expect(response.status).to eq 200
+      end
     end
   end
-  describe 'GET worng' do
-    it "rejects wrong URI." do
-      expect{get('/static_pages/hoge')}.to raise_error
-    end
+
+  describe 'GET #wrong action' do
+    
   end
 end
