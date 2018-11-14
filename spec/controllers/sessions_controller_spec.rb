@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'supports/login_helper'
+require 'logger' 
 
 
 RSpec.describe SessionsController, type: :controller do
@@ -35,13 +36,8 @@ RSpec.describe SessionsController, type: :controller do
 
     context 'when login with valid parameters' do
       let(:user){create(:user)}
-      let(:post_create){post(:create,params:{
-        session:{
-          email: user.email,
-          password: user.password
-        }
-      })}
-
+      let(:post_create){log_in_as(user,remember_me: '1')}
+      let(:post_create_not_remember){log_in_as(user,remember_me: '0')}
       it 'サインイン後リダイレクトする' do
         post_create
         created = User.find_by(email: user.email)
@@ -52,46 +48,59 @@ RSpec.describe SessionsController, type: :controller do
         post_create
         expect(is_logged_in?).to eq true
       end
+      context 'when with remember_me' do
+        it 'ログインcookieが保存される' do
+          post_create
+          expect(response.cookies['user_id'].nil?).to eq false
+        end
 
-      it 'ログインcookieが保存される' do
-        post_create
-        expect(has_login_cookie?).to eq true
+        it 'remember_tokenクッキーが保存される' do
+          post_create
+          expect(response.cookies['remember_token'].nil?).to eq false
+        end
+
+        it 'remember_token cookiesがuser内の物と同じ' do
+          post_create
+          expect(response.cookies['remember_token']).to eq assigns(:user).remember_token
+        end
       end
 
-      it 'remember_tokenクッキーが保存される' do
-        post_create
-        expect(has_remember_token_cookie?).to eq true
+      context 'when without remember_me' do
+        it 'ログインcookieが保存されない' do
+          post_create_not_remember
+          expect(response.cookies['user_id']).to eq nil
+        end
+
+        it 'remember_tokenクッキーが保存されない' do
+          post_create_not_remember
+          expect(response.cookies['remember_token']).to eq nil
+        end
       end
     end
   end
 
-  describe '#destroy' do
+  describe 'destroyaaaaa' do
     context "when logout succeed" do
       let(:user){create(:user)}
-      let(:post_create){post(:create,params:{
-        session:{
-          email: user.email,
-          password: user.password
-        }
-      })}
+      let(:post_create){log_in_as(user,remember_me: '1')}
       
       it 'ログインセッションが正常終了' do
+        post_create
+        delete :destroy
+        expect(response.cookies[:user_id]).to eq nil
+      end
+
+      it 'ログインcookieが削除される' do
         post_create
         delete :destroy
         expect(is_logged_in?).to eq false
       end
 
-      # it 'ログインcookieが削除される' do
-      #   post_create
-      #   delete :destroy
-      #   expect(has_login_cookie?).to eq false
-      # end
-
-      # it 'remember_tokenクッキーが削除される' do
-      #   post_create
-      #   delete :destroy
-      #   expect(has_remember_token_cookie?).to eq false
-      # end
+      it 'remember_tokenクッキーが削除される' do
+        post_create
+        delete :destroy
+        expect(response.cookies[:remember_token]).to eq nil
+      end
 
       it 'ルートページへリダイレクトする' do
         post_create

@@ -1,0 +1,24 @@
+require 'rails_helper'
+
+describe 'SessionsHelper' do
+  include SessionsHelper
+
+  let(:user){create(:user)}
+  #let(:post_create){log_in_as(user,remember_me: '1')}
+  describe 'remember' do
+    context 'when session is nil' do
+      it 'current_user returns right user' do 
+        remember(user)
+        expect(current_user).to eq user
+      end
+    end
+
+    context 'when remember digest is wrong' do
+      it 'current_user returns nil ' do
+        remember(user)
+        user.update_attribute(:remember_digest,User.digest(User.new_token))
+        expect(current_user).to eq nil
+      end
+    end
+  end
+end

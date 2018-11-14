@@ -3,12 +3,18 @@ def is_logged_in?
   !session[:user_id].nil?
 end
 
-def has_login_cookie?
-  !cookies.signed[:user_id].nil?
+def log_in_as(user)
+  session[:user_id] = user.id
 end
 
-def has_remember_token_cookie?
-  !cookies[:remember_token].nil?
+def log_in_as(user,remember_me: '1')
+  post(:create,params:{
+    session:{
+      email: user.email,
+      password: user.password,
+      remember_me: remember_me
+    }
+  })
 end
 
 def fill_in_login_form(user, option = { invalid: false })
