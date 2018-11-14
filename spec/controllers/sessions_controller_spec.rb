@@ -1,6 +1,7 @@
 require 'rails_helper'
 require 'supports/login_helper'
 
+
 RSpec.describe SessionsController, type: :controller do
 
   describe "GET #new" do
@@ -51,6 +52,16 @@ RSpec.describe SessionsController, type: :controller do
         post_create
         expect(is_logged_in?).to eq true
       end
+
+      it 'ログインcookieが保存される' do
+        post_create
+        expect(has_login_cookie?).to eq true
+      end
+
+      it 'remember_tokenクッキーが保存される' do
+        post_create
+        expect(has_remember_token_cookie?).to eq true
+      end
     end
   end
 
@@ -63,12 +74,24 @@ RSpec.describe SessionsController, type: :controller do
           password: user.password
         }
       })}
-
+      
       it 'ログインセッションが正常終了' do
         post_create
         delete :destroy
         expect(is_logged_in?).to eq false
       end
+
+      # it 'ログインcookieが削除される' do
+      #   post_create
+      #   delete :destroy
+      #   expect(has_login_cookie?).to eq false
+      # end
+
+      # it 'remember_tokenクッキーが削除される' do
+      #   post_create
+      #   delete :destroy
+      #   expect(has_remember_token_cookie?).to eq false
+      # end
 
       it 'ルートページへリダイレクトする' do
         post_create
