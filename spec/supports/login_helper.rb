@@ -7,7 +7,7 @@ def log_in_as(user)
   session[:user_id] = user.id
 end
 
-def log_in_as(user,remember_me: '1')
+def log_in_as(user,remember_me: true)
   post(:create,params:{
     session:{
       email: user.email,

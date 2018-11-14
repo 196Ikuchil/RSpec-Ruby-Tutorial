@@ -37,7 +37,7 @@ RSpec.describe SessionsController, type: :controller do
     context 'when login with valid parameters' do
       let(:user){create(:user)}
       let(:post_create){log_in_as(user,remember_me: '1')}
-      let(:post_create_not_remember){log_in_as(user,remember_me: '0')}
+      let(:post_create_not_remember){log_in_as(user,remember_me: false)}
       it 'サインイン後リダイレクトする' do
         post_create
         created = User.find_by(email: user.email)
@@ -51,12 +51,12 @@ RSpec.describe SessionsController, type: :controller do
       context 'when with remember_me' do
         it 'ログインcookieが保存される' do
           post_create
-          expect(response.cookies['user_id'].nil?).to eq false
+          expect(response.cookies['user_id']).to_not eq nil
         end
 
         it 'remember_tokenクッキーが保存される' do
           post_create
-          expect(response.cookies['remember_token'].nil?).to eq false
+          expect(response.cookies['remember_token']).to_not eq nil 
         end
 
         it 'remember_token cookiesがuser内の物と同じ' do
@@ -79,10 +79,10 @@ RSpec.describe SessionsController, type: :controller do
     end
   end
 
-  describe 'destroyaaaaa' do
+  describe '#destroy' do
     context "when logout succeed" do
       let(:user){create(:user)}
-      let(:post_create){log_in_as(user,remember_me: '1')}
+      let(:post_create){log_in_as(user,remember_me: true)}
       
       it 'ログインセッションが正常終了' do
         post_create
