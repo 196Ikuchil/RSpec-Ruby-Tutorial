@@ -19,7 +19,7 @@ describe StaticPagesController, type: :controller do
 
     context "when access #wrong page" do
       it "rejects wrong URI." do
-        expect{get('/static_pages/hoge')}.to raise_error
+        expect{get('/static_pages/hoge')}.to raise_error(ActionController::UrlGenerationError)
       end
     end
   end
