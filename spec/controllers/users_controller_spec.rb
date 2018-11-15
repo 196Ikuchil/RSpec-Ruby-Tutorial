@@ -10,7 +10,7 @@ RSpec.describe UsersController, type: :controller do
   end
   
   describe '#create' do
-    context 'success signup' do
+    context 'when success signup' do
       let(:user){build(:user)}
       let(:post_create){
         post( :create, params: {
@@ -68,6 +68,50 @@ RSpec.describe UsersController, type: :controller do
       it 'users/newに遷移する' do
         post_create
         expect(response).to render_template('users/new')
+      end
+    end
+  end
+
+  describe '#edit' do
+    let(:user){create(:user)}
+    context 'when visit edit page' do
+      it 'render edit page' do
+        get :edit, params:{id: user.id}
+        expect(response).to render_template('users/edit')
+      end
+    end
+  end
+  describe '#update' do
+    let(:user){create(:user)}
+    context 'when use valid info' do
+      let(:update_user){patch(:update, params:{
+        id: user,
+        user: attributes_for(:michael)
+      })}
+      it 'flashが空でない' do 
+        update_user
+        expect(flash[:success]).to_not be_empty
+      end
+
+      it 'プロフィールページにリダイレクト' do
+        update_user
+        expect(response).to redirect_to(user)
+      end
+
+      it 'user情報が変更される' do
+        expect{update_user}.to change{User.find(user.id).name}.from(user.name).to(build(:michael).name)
+      end
+
+    end
+
+    context 'when use invalid info' do
+      it 'editに戻ってくる' do
+        get :edit, params:{id:user.id}
+        patch :update ,params:{
+          id: user.id,
+          user: attributes_for(:invalid_user)
+          }
+        expect(response).to render_template('users/edit')
       end
     end
   end
