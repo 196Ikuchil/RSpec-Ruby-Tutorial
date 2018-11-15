@@ -2,6 +2,22 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
+  describe '#index' do
+    context 'visit index' do
+      let(:user){create(:user)}
+      it 'indexページが描画される' do
+        log_in_session_as(user)
+        get :index
+        expect(response).to render_template('users/index')
+      end
+    end 
+    context 'when not logged in' do
+      it 'ログインページにリダイレクトされる' do
+        get :index
+        expect(response).to redirect_to(login_path)
+      end
+    end
+  end
   describe "GET #new" do
     it "returns http success" do
       get :new
