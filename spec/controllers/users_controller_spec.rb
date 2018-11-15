@@ -14,12 +14,7 @@ RSpec.describe UsersController, type: :controller do
       let(:user){build(:user)}
       let(:post_create){
         post( :create, params: {
-          user: {
-            name:   user.name,
-            email:  user.email,
-            password: user.password,
-            password_confirmation: user.password_confirmation 
-          }
+          user: attributes_for(:user)
       })}
 
       it 'ユーザが新規に生成される' do
@@ -54,11 +49,7 @@ RSpec.describe UsersController, type: :controller do
     end
     context 'invalid signup information' do
       let(:post_create){post( :create, params: {
-        user: {
-          name:   "",
-          email:  "",
-          password: "notpas",
-          password_confirmation: "notpass" }
+        user: attributes_for(:user, :invalid)
       })}
 
       it 'ユーザ数が増えない' do
@@ -109,7 +100,7 @@ RSpec.describe UsersController, type: :controller do
         get :edit, params:{id:user.id}
         patch :update ,params:{
           id: user.id,
-          user: attributes_for(:invalid_user)
+          user: attributes_for(:user,:invalid)
           }
         expect(response).to render_template('users/edit')
       end

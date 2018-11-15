@@ -4,13 +4,13 @@ FactoryBot.define do
     email { "user@example.com" }
     password {"foobar"}
     password_confirmation {"foobar"}
-  end
 
-  factory :invalid_user, class:User do
-    name {""}
-    email {"foo@invalid"}
-    password {"foo"}
-    password_confirmation {"bar"}
+    trait :invalid do
+      name {nil}
+      email {"foo@invalid"}
+      password {"foo"}
+      password_confirmation {"bar"}
+    end
   end
 
   factory :michael,class: User do

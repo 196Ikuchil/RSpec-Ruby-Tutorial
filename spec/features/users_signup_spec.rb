@@ -2,11 +2,7 @@
 describe 'user signup',type: :request do
   describe '登録失敗' do  
     let(:post_create){post( '/users', params: {
-      user: {
-        name:   "",
-        email:  "",
-        password: "notpas",
-        password_confirmation: "notpass" }
+      user: attributes_for(:user,:invalid)
     })}
 
     it 'エラーを表示している' do
