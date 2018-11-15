@@ -63,11 +63,11 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#edit' do
+  describe 'editt' do
     let(:user){create(:user)}
-    let(:login){log_in_session_as(user)}
     let(:get_edit){get :edit, params:{id: user.id}}
     context 'when visit edit page' do
+      let(:login){log_in_session_as(user)}
       it 'render edit page' do
         login
         get_edit
@@ -83,6 +83,10 @@ RSpec.describe UsersController, type: :controller do
       it 'フラッシュに値が入る' do
         get_edit
         expect(flash[:danger]).to_not be_empty
+      end
+      it 'sessionにurlが保存される' do
+        get_edit
+        expect(session[:forwarding_url]).to eq edit_user_url(user)
       end
     end
   end
@@ -111,7 +115,6 @@ RSpec.describe UsersController, type: :controller do
         login
         expect{update_user}.to change{User.find(user.id).name}.from(user.name).to(build(:michael).name)
       end
-
     end
 
     context 'when use invalid info' do

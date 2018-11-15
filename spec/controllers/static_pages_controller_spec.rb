@@ -50,8 +50,4 @@ describe StaticPagesController, type: :controller do
       end
     end
   end
-
-  describe 'GET #wrong action' do
-    
-  end
 end

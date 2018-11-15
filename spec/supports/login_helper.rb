@@ -17,6 +17,8 @@ def log_in_as(user,remember_me: true)
   })
 end
 
+## capybara ## 
+
 def fill_in_login_form(user, option = { invalid: false })
   if option[:invalid]
     fill_in "Email",        with: ""
@@ -26,3 +28,9 @@ def fill_in_login_form(user, option = { invalid: false })
     fill_in "Password",     with: user.password
   end
 end
+
+def login_in_capy(user)
+  fill_in_login_form(user)
+  click_button "Log in"
+end
+##
