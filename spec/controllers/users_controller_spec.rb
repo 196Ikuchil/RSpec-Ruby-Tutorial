@@ -65,31 +65,50 @@ RSpec.describe UsersController, type: :controller do
 
   describe '#edit' do
     let(:user){create(:user)}
+    let(:login){log_in_session_as(user)}
+    let(:get_edit){get :edit, params:{id: user.id}}
     context 'when visit edit page' do
       it 'render edit page' do
-        get :edit, params:{id: user.id}
+        login
+        get_edit
         expect(response).to render_template('users/edit')
       end
     end
+
+    context 'when not logged in' do 
+      it '権限がなくログインページに飛ばされる' do
+        get_edit
+        expect(response).to redirect_to(login_url)
+      end
+      it 'フラッシュに値が入る' do
+        get_edit
+        expect(flash[:danger]).to_not be_empty
+      end
+    end
   end
+
   describe '#update' do
     let(:user){create(:user)}
+    let(:login){log_in_session_as(user)}
+    let(:update_user){patch(:update, params:{
+      id: user,
+      user: attributes_for(:michael)
+    })}
     context 'when use valid info' do
-      let(:update_user){patch(:update, params:{
-        id: user,
-        user: attributes_for(:michael)
-      })}
       it 'flashが空でない' do 
+        login
         update_user
         expect(flash[:success]).to_not be_empty
       end
 
       it 'プロフィールページにリダイレクト' do
+        login
         update_user
         expect(response).to redirect_to(user)
       end
 
       it 'user情報が変更される' do
+        login
         expect{update_user}.to change{User.find(user.id).name}.from(user.name).to(build(:michael).name)
       end
 
@@ -97,12 +116,24 @@ RSpec.describe UsersController, type: :controller do
 
     context 'when use invalid info' do
       it 'editに戻ってくる' do
+        login
         get :edit, params:{id:user.id}
         patch :update ,params:{
           id: user.id,
           user: attributes_for(:user,:invalid)
           }
         expect(response).to render_template('users/edit')
+      end
+    end
+
+    context 'when not logged in' do 
+      it '権限がなくログインページに飛ばされる' do
+        update_user
+        expect(response).to redirect_to(login_url)
+      end
+      it 'フラッシュに値が入る' do
+        update_user
+        expect(flash[:danger]).to_not be_empty
       end
     end
   end

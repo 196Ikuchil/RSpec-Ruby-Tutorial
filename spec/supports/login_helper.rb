@@ -3,12 +3,12 @@ def is_logged_in?
   !session[:user_id].nil?
 end
 
-def log_in_as(user)
+def log_in_session_as(user)
   session[:user_id] = user.id
 end
 
 def log_in_as(user,remember_me: true)
-  post(:create,params:{
+  post(:create, params:{
     session:{
       email: user.email,
       password: user.password,
