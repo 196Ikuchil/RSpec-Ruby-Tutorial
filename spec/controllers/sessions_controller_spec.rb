@@ -36,7 +36,7 @@ RSpec.describe SessionsController, type: :controller do
 
     context 'when login with valid parameters' do
       let(:user){create(:user)}
-      let(:post_create){log_in_as(user,remember_me: '1')}
+      let(:post_create){log_in_as(user,remember_me: true)}
       let(:post_create_not_remember){log_in_as(user,remember_me: false)}
       it 'サインイン後リダイレクトする' do
         post_create

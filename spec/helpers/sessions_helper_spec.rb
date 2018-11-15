@@ -6,7 +6,7 @@ describe 'SessionsHelper' do
   let(:user){create(:user)}
   describe 'remember' do
     context 'when session is nil' do
-      it 'current_user returns right user' do 
+      it 'current_user returns correct user' do 
         remember(user)
         expect(current_user).to eq user
       end
