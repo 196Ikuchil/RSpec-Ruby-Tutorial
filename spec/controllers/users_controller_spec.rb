@@ -79,11 +79,11 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'editt' do
+  describe '#edit' do
     let(:user){create(:user)}
     let(:get_edit){get :edit, params:{id: user.id}}
+    let(:login){log_in_session_as(user)}
     context 'when visit edit page' do
-      let(:login){log_in_session_as(user)}
       it 'render edit page' do
         login
         get_edit
@@ -145,6 +145,22 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
+    context 'when try to edit admin attr' do
+      let(:michael){create(:michael)}
+      let(:update_admin){patch(:update, params:{
+        id: michael,
+        user: {
+          password: michael.password,
+          password_confirmation: michael.password,
+          admin: true
+        }
+      })}
+      it 'not change' do
+        login
+        expect{update_admin}.to_not change{User.find(michael.id).admin}
+      end
+    end
+
     context 'when not logged in' do 
       it '権限がなくログインページに飛ばされる' do
         update_user
@@ -153,6 +169,47 @@ RSpec.describe UsersController, type: :controller do
       it 'フラッシュに値が入る' do
         update_user
         expect(flash[:danger]).to_not be_empty
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let(:michael){create(:michael)}
+    let(:archer){create(:archer)}
+    let(:user){create(:user)}
+    let(:delete_create){delete :destroy, params:{id: user}}
+    before{ 
+      michael
+      archer
+      user
+    }
+
+    context 'when not logged in' do
+      it 'ログインページへ飛ばされる' do
+        delete_create
+        expect(response).to redirect_to(login_path)
+      end
+
+      it 'ユーザは削除されない' do
+        expect{delete_create}.to_not change{User.count}
+      end
+
+    end
+    context 'when not admin user' do 
+      it 'ルートページへ飛ばされる' do
+        log_in_session_as(archer)
+        delete_create
+        expect(response).to redirect_to(root_path)
+      end
+      it 'ユーザは削除されない' do
+        log_in_session_as(archer)
+        expect{delete_create}.to_not change{User.count}
+      end
+    end
+    context 'when admin user' do
+      it 'ユーザは削除される' do
+        log_in_session_as(michael)
+        expect{delete_create}.to change{User.count}.from(User.count).to(User.count-1)
       end
     end
   end

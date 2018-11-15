@@ -4,6 +4,7 @@ FactoryBot.define do
     email { "user@example.com" }
     password {"foobar"}
     password_confirmation {"foobar"}
+    admin {false}
 
     factory :other_user do
       name {Faker::Name.name}
@@ -15,6 +16,7 @@ FactoryBot.define do
       email {"foo@invalid"}
       password {"foo"}
       password_confirmation {"bar"}
+      admin{false}
     end
   end
 
@@ -23,6 +25,7 @@ FactoryBot.define do
     email{"michael@example.com"}
     password{"foobarM"}
     password_confirmation{"foobarM"}
+    admin {true}
   end
 
   factory :archer, class: User do
