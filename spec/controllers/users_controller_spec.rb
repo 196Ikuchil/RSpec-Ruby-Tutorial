@@ -112,7 +112,7 @@ RSpec.describe UsersController, type: :controller do
     let(:login){log_in_session_as(user)}
     let(:update_user){patch(:update, params:{
       id: user,
-      user: attributes_for(:michael)
+      user: attributes_for(:user,:michael)
     })}
     context 'when use valid info' do
       it 'flashが空でない' do 
@@ -129,7 +129,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'user情報が変更される' do
         login
-        expect{update_user}.to change{User.find(user.id).name}.from(user.name).to(build(:michael).name)
+        expect{update_user}.to change{User.find(user.id).name}.from(user.name).to(build(:user,:michael).name)
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'when try to edit admin attr' do
-      let(:michael){create(:michael)}
+      let(:michael){create(:user,:michael)}
       let(:update_admin){patch(:update, params:{
         id: michael,
         user: {
@@ -174,8 +174,8 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:michael){create(:michael)}
-    let(:archer){create(:archer)}
+    let(:michael){create(:user,:michael)}
+    let(:archer){create(:user,:archer)}
     let(:user){create(:user)}
     let(:delete_create){delete :destroy, params:{id: user}}
     before{ 

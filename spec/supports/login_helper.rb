@@ -21,11 +21,11 @@ end
 
 def fill_in_login_form(user, option = { invalid: false })
   if option[:invalid]
-    fill_in "Email",        with: ""
-    fill_in "Password",     with: ""
+    fill_in "email",        with: ""
+    fill_in "password",     with: ""
   else
-    fill_in "Email",        with: user.email
-    fill_in "Password",     with: user.password
+    fill_in "email",        with: user.email
+    fill_in "password",     with: user.password
   end
 end
 

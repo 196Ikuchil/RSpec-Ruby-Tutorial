@@ -3,7 +3,7 @@ require 'supports/login_helper.rb'
 
 feature "UsersIndex", type: :feature do
   let(:users){create_list(:other_user,30)}
-  let(:michael){create(:michael)}
+  let(:michael){create(:user,:michael)}
   describe "index" do
     describe 'ページネーション' do
       before{users}

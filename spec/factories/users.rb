@@ -18,34 +18,34 @@ FactoryBot.define do
       password_confirmation {"bar"}
       admin{false}
     end
-  end
 
-  factory :michael,class: User do
-    name{"Michael Example"}
-    email{"michael@example.com"}
-    password{"foobarM"}
-    password_confirmation{"foobarM"}
-    admin {true}
-  end
+    trait :michael do
+      name{"Michael Example"}
+      email{"michael@example.com"}
+      password{"foobarM"}
+      password_confirmation{"foobarM"}
+      admin {true}
+    end
 
-  factory :archer, class: User do
-    name {"Sterling Archer"}
-    email {"duchess@example.gov"}
-    password {"foobarA"}
-    password_confirmation {"foobarA"}
-  end
+    trait :archer do
+      name {"Sterling Archer"}
+      email {"duchess@example.gov"}
+      password {"foobarA"}
+      password_confirmation {"foobarA"}
+    end
 
-  factory :lana, class: User do
-    name {"Lana Kane"}
-    email {"hands@example.gov"}
-    password {"foobarL"}
-    password_confirmation {"foobarL"}
-  end
+    trait :lana do
+      name {"Lana Kane"}
+      email {"hands@example.gov"}
+      password {"foobarL"}
+      password_confirmation {"foobarL"}
+    end
 
-  factory :malory, class:User do
-    name {"Malory Archer"}
-    email {"boss@example.gov"}
-    password {"foobarMA"}
-    password_confirmation {"foobarMA"}
+    trait :malory do
+      name {"Malory Archer"}
+      email {"boss@example.gov"}
+      password {"foobarMA"}
+      password_confirmation {"foobarMA"}
+    end
   end
 end
