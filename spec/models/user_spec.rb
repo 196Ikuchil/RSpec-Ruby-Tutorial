@@ -76,7 +76,7 @@ RSpec.describe User, type: :model do
   describe "user helper" do
     context "when user with nil digest" do
       it 'return false' do
-        expect(user.authenticated?('')).to eq false
+        expect(user.authenticated?(:remember,'')).to eq false
       end
     end
   end

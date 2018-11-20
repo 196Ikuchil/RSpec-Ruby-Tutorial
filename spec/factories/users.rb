@@ -23,6 +23,11 @@ FactoryBot.define do
       activated_at {Time.zone.now}
     end
 
+    trait :not_activated do
+      activated {false}
+      activated_at {nil}
+    end
+
     trait :michael do
       name{"Michael Example"}
       email{"michael@example.com"}

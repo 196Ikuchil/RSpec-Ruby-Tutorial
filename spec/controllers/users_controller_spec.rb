@@ -37,31 +37,31 @@ RSpec.describe UsersController, type: :controller do
         expect{post_create}.to change{User.count}.by(1)
       end
 
-      it 'サインアップ後リダイレクトする' do
-        post_create
-        created = User.find_by(email: user.email)
-        expect(response).to redirect_to("/users/#{created.id}")
-      end
+      # it 'サインアップ後リダイレクトする' do
+      #   post_create
+      #   created = User.find_by(email: user.email)
+      #   expect(response).to redirect_to("/users/#{created.id}")
+      # end
 
-      it 'flashに値が入っている' do
-        post_create
-        created = User.find_by(email: user.email)
-        get :show, params: {id: created.id} 
-        expect(flash[:success]).not_to be_empty
-      end
+      # it 'flashに値が入っている' do
+      #   post_create
+      #   created = User.find_by(email: user.email)
+      #   get :show, params: {id: created.id} 
+      #   expect(flash[:success]).not_to be_empty
+      # end
 
-      it 'flashの値が消える' do
-        post_create
-        created = User.find_by(email: user.email)
-        get :show, params: {id: created.id}
-        get :show, params: {id: created.id}
-        expect(flash[:success]).to be nil
-      end
+      # it 'flashの値が消える' do
+      #   post_create
+      #   created = User.find_by(email: user.email)
+      #   get :show, params: {id: created.id}
+      #   get :show, params: {id: created.id}
+      #   expect(flash[:success]).to be nil
+      # end
 
-      it 'ログインセッションが保存される' do
-        post_create
-        expect(is_logged_in?).to eq true
-      end
+      # it 'ログインセッションが保存される' do
+      #   post_create
+      #   expect(is_logged_in?).to eq true
+      # end
     end
     context 'invalid signup information' do
       let(:post_create){post( :create, params: {
