@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+require 'supports/login_helper'
 RSpec.describe AccountActivationsController, type: :controller do
 
   describe "edit" do

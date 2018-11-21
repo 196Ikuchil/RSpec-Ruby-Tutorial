@@ -24,6 +24,24 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe 'show' do
+    context 'when logged in user access' do
+      let(:user){create(:user)}
+      it '正常なページが表示される' do
+        get :show, params:{id: user.id}
+        expect(response).to render_template('users/show')
+      end
+    end
+
+    context 'when access not activated user page' do
+      let(:user){create(:user,:not_activated)}
+      it 'ルートページに戻される' do
+        get :show, params:{id: user.id }
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
   
   describe '#create' do
     context 'when success signup' do

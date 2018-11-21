@@ -80,4 +80,16 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  
+  describe 'User method' do
+    let(:users){create_list(:other_user,40)}
+    describe 'paginate_filter' do
+      it '有効アカウントのみ取得' do
+        users
+        User.paginate_filter(page: 1).each do |u|
+          expect(u.activated?).to eq true 
+        end
+      end
+    end
+  end
 end

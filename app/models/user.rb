@@ -16,6 +16,10 @@ class User < ApplicationRecord
     BCrypt::Password.create(string, cost: cost)
   end
 
+  def self.paginate_filter(page)
+    User.where(activated: true).paginate(page)
+  end
+
   def self.new_token
     SecureRandom.urlsafe_base64
   end
@@ -33,6 +37,14 @@ class User < ApplicationRecord
 
   def forget
     update_attribute(:remember_digest,nil)
+  end
+
+  def activate
+    update_columns(activated: true,activated_at: Time.zone.now)
+  end
+
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private
