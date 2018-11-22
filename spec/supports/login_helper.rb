@@ -29,6 +29,7 @@ def login_in_request(user,remember_me: true)
   })
 end
 
+
 ## capybara ## 
 
 def fill_in_login_form(user, option = { invalid: false })
