@@ -6,13 +6,14 @@ class UsersController < ApplicationController
   def index
     @users=User.paginate_filter(page: params[:page])
   end
-  
+
   def new
     @user = User.new
   end
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
     redirect_to root_url and return unless @user.activated?
   end
 
@@ -36,7 +37,7 @@ class UsersController < ApplicationController
     if (@user.update_attributes(user_params))
       flash[:success] = "Profile updated"
       redirect_to @user
-    elsif 
+    elsif
       render 'edit'
     end
   end
