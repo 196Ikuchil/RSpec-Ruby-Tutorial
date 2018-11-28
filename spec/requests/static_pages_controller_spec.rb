@@ -1,25 +1,18 @@
 require 'rails_helper'
 require 'spec_helper'
 
-describe StaticPagesController, type: :controller do
-  render_views
+describe StaticPagesController, type: :request do
   let(:base_title) { 'Ruby on Rails Tutorial Sample App' }
  
   describe 'GET #home' do
     context "when access the page" do
       it 'has a 200 status code' do
-        get 'home'
+        get root_path
         expect(response).to have_http_status(:ok)
       end
       it 'check home render' do
-        get 'home'
+        get root_path
         expect(response).to render_template('static_pages/home')
-      end
-    end
-
-    context "when access #wrong page" do
-      it "rejects wrong URI." do
-        expect{get('/static_pages/hoge')}.to raise_error(ActionController::UrlGenerationError)
       end
     end
   end
@@ -27,7 +20,7 @@ describe StaticPagesController, type: :controller do
   describe 'GET #help' do
     context "when access the page" do
       it 'has a 200 status code' do
-        get 'help'
+        get help_path
         expect(response.status).to eq 200
       end
     end
@@ -36,7 +29,7 @@ describe StaticPagesController, type: :controller do
   describe 'GET #about' do
     context "when access the page" do
       it 'has a 200 status the code' do
-        get 'about'
+        get about_path
         expect(response.status).to eq 200
       end
     end
@@ -45,7 +38,7 @@ describe StaticPagesController, type: :controller do
   describe 'GET #contact' do
     context "when access the page" do
       it 'has a 200 status code' do
-        get 'contact'
+        get contact_path
         expect(response.status).to eq 200
       end
     end
