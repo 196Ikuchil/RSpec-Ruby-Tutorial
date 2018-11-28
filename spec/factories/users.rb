@@ -5,6 +5,8 @@ FactoryBot.define do
     password {"foobar"}
     password_confirmation {"foobar"}
     admin {false}
+    activated {true}
+    activated_at {Time.zone.now}
 
     factory :other_user do
       name {Faker::Name.name}
@@ -17,6 +19,13 @@ FactoryBot.define do
       password {"foo"}
       password_confirmation {"bar"}
       admin{false}
+      activated {true}
+      activated_at {Time.zone.now}
+    end
+
+    trait :not_activated do
+      activated {false}
+      activated_at {nil}
     end
 
     trait :michael do
@@ -25,6 +34,8 @@ FactoryBot.define do
       password{"foobarM"}
       password_confirmation{"foobarM"}
       admin {true}
+      activated {true}
+      activated_at {Time.zone.now}
     end
 
     trait :archer do
@@ -32,6 +43,8 @@ FactoryBot.define do
       email {"duchess@example.gov"}
       password {"foobarA"}
       password_confirmation {"foobarA"}
+      activated {true}
+      activated_at {Time.zone.now}
     end
 
     trait :lana do
@@ -39,6 +52,8 @@ FactoryBot.define do
       email {"hands@example.gov"}
       password {"foobarL"}
       password_confirmation {"foobarL"}
+      activated {true}
+      activated_at {Time.zone.now}
     end
 
     trait :malory do
@@ -46,6 +61,8 @@ FactoryBot.define do
       email {"boss@example.gov"}
       password {"foobarMA"}
       password_confirmation {"foobarMA"}
+      activated {true}
+      activated_at {Time.zone.now}
     end
   end
 end

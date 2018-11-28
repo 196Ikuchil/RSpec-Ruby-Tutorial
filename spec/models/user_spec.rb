@@ -76,7 +76,19 @@ RSpec.describe User, type: :model do
   describe "user helper" do
     context "when user with nil digest" do
       it 'return false' do
-        expect(user.authenticated?('')).to eq false
+        expect(user.authenticated?(:remember,'')).to eq false
+      end
+    end
+  end
+  
+  describe 'User method' do
+    let(:users){create_list(:other_user,40)}
+    describe 'paginate_filter' do
+      it '有効アカウントのみ取得' do
+        users
+        User.paginate_filter(page: 1).each do |u|
+          expect(u.activated?).to eq true 
+        end
       end
     end
   end

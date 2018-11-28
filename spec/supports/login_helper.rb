@@ -17,6 +17,18 @@ def log_in_as(user,remember_me: true)
   })
 end
 
+
+## request
+def login_in_request(user,remember_me: true)
+  post(login_path, params:{
+    session:{
+      email: user.email,
+      password: user.password,
+      remember_me: remember_me
+    }
+  })
+end
+
 ## capybara ## 
 
 def fill_in_login_form(user, option = { invalid: false })
