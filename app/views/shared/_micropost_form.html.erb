@@ -4,4 +4,7 @@
     <%= m.text_area :content,placeholder: "Compose new miropost...",id: :micropost%>
   </div>
   <%= m.submit "Post",class: "btn btn-primary"%>
+  <span class="picture">
+    <%= m.file_field :picture %>
+    </span>
 <% end%>

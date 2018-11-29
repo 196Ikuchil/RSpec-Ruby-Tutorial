@@ -6,17 +6,22 @@ feature "MicropostInterfaceTest" ,type: :feature do
   let(:microposts){create_list(:micropost,50,user:user)}
   let(:other_user){create(:other_user)}
   let(:other_microposts){create_list(:other_micropost,50,user:other_user)}
+
+  let(:image_path) { File.join(Rails.root, 'spec/fixtures/image1.png') }
+
   before{microposts}
   scenario 'post micropost then delete' do
     visit login_path
     login_in_capy(user)
     click_on 'Home'
     expect(page).to have_selector('div.pagination')
+    expect(page).to have_selector('input[type=file][name="micropost[picture]"]')
     expect{post_micropost("")}.to_not change{Micropost.count}
     expect(page).to have_css('div#error_explanation')
-    expect{post_micropost("content")}.to change{Micropost.count}.from(Micropost.count).to(Micropost.count+1)
+    expect{post_micropost("content",image: image_path)}.to change{Micropost.count}.from(Micropost.count).to(Micropost.count+1)
     expect(current_path).to eq(root_path)
     expect(page).to have_text('content')
+    expect(page).to have_css('img#micropost')
 
 
     expect(page).to have_selector('a',text: 'delete')
