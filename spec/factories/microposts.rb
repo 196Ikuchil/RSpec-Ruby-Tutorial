@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :micropost do
     content { Faker::Lorem.sentence(5)}
     association :user, factory: :user
-    factory :others do
+    factory :other_micropost do
       content {Faker::Lorem.sentence(5)}
       created_at {42.days.ago}
       association :user, factory: :other_user
