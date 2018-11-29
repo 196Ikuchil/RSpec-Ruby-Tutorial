@@ -1,0 +1,7 @@
+<%=form_with model:@micropost, url:microposts_path(params[:id]),local:true do |m|%>
+  <%= render 'shared/error_messages',object: m.object %>
+  <div class='field'>
+    <%= m.text_area :content,placeholder: "Compose new miropost..."%>
+  </div>
+  <%= m.submit "Post",class: "btn btn-primary"%>
+<% end%>
