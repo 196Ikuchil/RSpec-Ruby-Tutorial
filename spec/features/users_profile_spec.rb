@@ -34,5 +34,39 @@ feature "UserProfileTest", type: :feature do
         expect(page).to have_css("li#micropost-#{micropost.id}",text: micropost.content)
       end
     end
+
+    describe "follow & unfollow button" do
+      let(:michael){create(:user,:michael)}
+      before{visit user_path(michael)}
+      context "when following other user" do
+        subject {click_on 'Follow'}
+        scenario 'user following increment 1' do
+          binding.pry
+          expect{subject}.to change(user.following, :count).by(1)
+        end
+        scenario 'michael followes increment 1' do
+          expect{subject}.to change(michael.followers, :count).by(1)
+        end
+        scenario 'change button label to unfollow' do
+          subject
+          expect(page).to have_css("div#follow_form", text: "Unfollow")
+        end
+
+        context 'when unfollow other user' do
+          subject{click_on 'Unfollow'}
+          before{click_on 'Follow'}
+          scenario 'user following decrement 1' do
+            expect{subject}.to change(user.following, :count).by(-1)
+          end
+          scenario 'michael follower decrement 1' do
+            expect{subject}.to change(user.followers, :count).by(-1)
+          end
+          scenario 'change button label to follow' do
+            subject
+            expect(page).to have_css("div#follow_form", text: "Follow")
+          end
+        end
+      end
+    end
   end
 end
