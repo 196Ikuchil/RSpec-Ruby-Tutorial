@@ -7,7 +7,7 @@ feature "MicropostInterfaceTest" ,type: :feature do
   let(:other_user){create(:other_user)}
   let(:other_microposts){create_list(:other_micropost,50,user:other_user)}
 
-  let(:image_path) { File.join(Rails.root, 'spec/fixtures/image1.png') }
+  let(:image_path) { File.join(Rails.root, 'spec/fixtures/image3.png') }
 
   before{microposts}
   scenario 'post micropost then delete' do
