@@ -130,4 +130,29 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'own feed' do
+    let(:user){create(:user)}
+    let(:michael){create(:user,:michael)}
+    let(:archer){create(:user,:archer)}
+
+    before{
+      user.follow(michael)
+    }
+    it 'include followers post' do
+      michael.microposts.each do |pst|
+        expect(user.feed.include?(pst))
+      end
+    end
+    it 'include own post' do
+      user.microposts.each do |pst|
+        expect(user.feed.include?(pst))
+      end
+    end
+    it 'not include other users post' do
+      archer.microposts.each do |pst|
+        expect(user.feed.include?(pst))
+      end
+    end
+  end
 end
