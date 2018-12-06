@@ -7,19 +7,19 @@ RSpec.describe Micropost, type: :model do
     context 'when make new micropost' do
 
       it 'should be valid' do
-        expect(@micropost.valid?).to eq true
+        expect(@micropost).to be_valid
       end
       it 'user_id should be present' do
         @micropost.user_id=nil
-        expect(@micropost.valid?).to eq false
+        expect(@micropost).to_not be_valid
       end
       it 'content should be present' do
         @micropost.content = " "
-        expect(@micropost.valid?).to eq false
+        expect(@micropost).to_not be_valid
       end
       it 'content should be at most 140 characters' do
         @micropost.content = "a"*141
-        expect(@micropost.valid?).to eq false
+        expect(@micropost).to_not be_valid
       end
     end
   end
