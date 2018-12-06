@@ -41,15 +41,14 @@ feature "UserProfileTest", type: :feature do
       context "when following other user" do
         subject {click_on 'Follow'}
         scenario 'user following increment 1' do
-          binding.pry
           expect{subject}.to change(user.following, :count).by(1)
         end
         scenario 'michael followes increment 1' do
           expect{subject}.to change(michael.followers, :count).by(1)
         end
         scenario 'change button label to unfollow' do
-          subject
-          expect(page).to have_css("div#follow_form", text: "Unfollow")
+          click_on "Follow"
+          expect(page).to have_css("input#follow_button")
         end
 
         context 'when unfollow other user' do
@@ -59,11 +58,11 @@ feature "UserProfileTest", type: :feature do
             expect{subject}.to change(user.following, :count).by(-1)
           end
           scenario 'michael follower decrement 1' do
-            expect{subject}.to change(user.followers, :count).by(-1)
+            expect{subject}.to change(michael.followers, :count).by(-1)
           end
           scenario 'change button label to follow' do
             subject
-            expect(page).to have_css("div#follow_form", text: "Follow")
+            expect(page).to have_css("input#follow_button")
           end
         end
       end
