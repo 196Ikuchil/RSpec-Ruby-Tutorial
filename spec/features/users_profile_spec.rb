@@ -30,7 +30,7 @@ feature "UserProfileTest", type: :feature do
     scenario 'rendered microposts by paginate' do
       visit user_path(user)
       expect(page).to have_css('div.pagination')
-      user.microposts.paginate(page: 1).each do |micropost|
+      user.microposts.desc.paginate(page: 1).each do |micropost|
         expect(page).to have_css("li#micropost-#{micropost.id}",text: micropost.content)
       end
     end

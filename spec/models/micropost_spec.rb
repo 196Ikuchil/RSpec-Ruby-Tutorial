@@ -27,9 +27,9 @@ RSpec.describe Micropost, type: :model do
 
   describe 'find' do
     before{@micropost = user.microposts.create(content: "messages")}
-    context 'when select a first micropost' do
+    context 'when use desc scope' do
       it 'return a latest micropost' do
-        expect(user.microposts.create(attributes_for(:micropost,:most_recent))).to eq Micropost.first
+        expect(user.microposts.create(attributes_for(:micropost,:most_recent))).to eq Micropost.desc.first
       end
     end
   end

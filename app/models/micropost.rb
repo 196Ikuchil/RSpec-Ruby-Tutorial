@@ -1,5 +1,5 @@
 class Micropost < ApplicationRecord
-  default_scope->{order(created_at: :desc)}
+  scope :desc, ->{order(created_at: :desc)}
   belongs_to :user
   mount_uploader :picture,PictureUploader
   validates :user_id,presence: true
