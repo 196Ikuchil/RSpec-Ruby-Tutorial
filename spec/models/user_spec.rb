@@ -103,7 +103,7 @@ RSpec.describe User, type: :model do
     }
     context 'when default state' do
       it 'no follow each other' do
-        expect(user.following?(michael)).to eq false
+        expect(user.following?(michael)).to eq user.following.include?(michael)
       end
     end
     context 'when following' do
