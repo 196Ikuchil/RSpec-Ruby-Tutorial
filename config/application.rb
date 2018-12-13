@@ -18,7 +18,9 @@ module Sampleproject
         fixtures: false,
         view_specs:false,
         helper_specs:false,
-        routing_spec:false
+        routing_spec:false,
+        controller_spec: false,
+        request_spec: true
     end
 
     # 認証用トークンをremoteフォームに埋め込み
