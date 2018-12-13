@@ -11,7 +11,7 @@ RSpec.describe UsersController, type: :request do
         get users_path
         expect(response).to render_template('users/index')
       end
-    end 
+    end
     context 'when not logged in' do
       it 'ログインページにリダイレクトされる' do
         get users_path
@@ -44,7 +44,7 @@ RSpec.describe UsersController, type: :request do
       end
     end
   end
-  
+
 
 
   describe 'create' do
@@ -105,7 +105,7 @@ RSpec.describe UsersController, type: :request do
       end
     end
 
-    context 'when not logged in' do 
+    context 'when not logged in' do
       it '権限がなくログインページに飛ばされる' do
         get_edit
         expect(response).to redirect_to(login_url)
@@ -128,7 +128,7 @@ RSpec.describe UsersController, type: :request do
       user: attributes_for(:user,:michael)
     })}
     context 'when use valid info' do
-      it 'flashが空でない' do 
+      it 'flashが空でない' do
         login
         update_user
         expect(flash[:success]).to_not be_empty
@@ -173,7 +173,7 @@ RSpec.describe UsersController, type: :request do
       end
     end
 
-    context 'when not logged in' do 
+    context 'when not logged in' do
       it '権限がなくログインページに飛ばされる' do
         update_user
         expect(response).to redirect_to(login_url)
@@ -190,7 +190,7 @@ RSpec.describe UsersController, type: :request do
     let(:archer){create(:user,:archer)}
     let(:user){create(:user)}
     let(:delete_destroy){delete user_path(user)}
-    before{ 
+    before{
       michael
       archer
       user
@@ -207,7 +207,7 @@ RSpec.describe UsersController, type: :request do
       end
 
     end
-    context 'when not admin user' do 
+    context 'when not admin user' do
       it 'ルートページへ飛ばされる' do
         login_in_request(archer)
         delete_destroy
@@ -222,6 +222,27 @@ RSpec.describe UsersController, type: :request do
       it 'ユーザは削除される' do
         login_in_request(michael)
         expect{delete_destroy}.to change{User.count}.from(User.count).to(User.count-1)
+      end
+    end
+  end
+
+  describe 'following' do
+    let(:user){create(:user)}
+    subject{get following_user_path(user)}
+    before{subject}
+    context 'when not logged in' do
+      it 'redirect to login path' do
+        expect(response).to redirect_to(login_path)
+      end
+    end
+  end
+  describe 'followers' do
+    let(:user){create(:user)}
+    subject{get followers_user_path(user)}
+    before{subject}
+    context 'when not logged in' do
+      it 'redirect to login path' do
+        expect(response).to redirect_to(login_path)
       end
     end
   end

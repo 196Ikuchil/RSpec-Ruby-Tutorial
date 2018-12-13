@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
         expect(user.reload.email).to eq mixed_case_email.downcase
       end
     end
-    
+
     context 'when create incollect info' do
       it 'name should be present' do
         user.name=nil
@@ -26,7 +26,7 @@ RSpec.describe User, type: :model do
         user.email= nil
         expect(user).not_to be_valid
       end
-      
+
       it 'name should not be too long' do
         user.name = 'a'*51
         expect(user).not_to be_valid
@@ -80,15 +80,78 @@ RSpec.describe User, type: :model do
       end
     end
   end
-  
+
   describe 'User method' do
     let(:users){create_list(:other_user,40)}
     describe 'paginate_filter' do
       it '有効アカウントのみ取得' do
         users
         User.paginate_filter(page: 1).each do |u|
-          expect(u.activated?).to eq true 
+          expect(u.activated?).to eq true
         end
+      end
+    end
+  end
+
+  describe 'user follow' do
+    let(:user){create(:user)}
+    let(:michael){create(:user,:michael)}
+
+    before{
+      user
+      michael
+    }
+    context 'when default state' do
+      it 'no follow each other' do
+        expect(user.following?(michael)).to eq user.following.include?(michael)
+      end
+    end
+    context 'when following' do
+      it 'following user' do
+        user.follow(michael)
+        expect(user.following?(michael)).to eq true
+      end
+      it 'followed michael' do
+        user.follow(michael)
+        expect(michael.followers.include?(user)).to eq true
+      end
+    end
+    context 'when remove follow' do
+      it 'following remove' do
+        user.follow(michael)
+        user.unfollow(michael)
+        expect(user.following?(michael)).to eq false
+      end
+
+      it 'follower remove' do
+        user.follow(michael)
+        user.unfollow(michael)
+        expect(michael.followers.include?(user)).to eq false
+      end
+    end
+  end
+
+  describe 'own feed' do
+    let(:user){create(:user)}
+    let(:michael){create(:user,:michael)}
+    let(:archer){create(:user,:archer)}
+
+    before{
+      user.follow(michael)
+    }
+    it 'include followers post' do
+      michael.microposts.each do |pst|
+        expect(user.feed.include?(pst))
+      end
+    end
+    it 'include own post' do
+      user.microposts.each do |pst|
+        expect(user.feed.include?(pst))
+      end
+    end
+    it 'not include other users post' do
+      archer.microposts.each do |pst|
+        expect(user.feed.include?(pst))
       end
     end
   end
